@@ -68,3 +68,20 @@ def graphData(data, xAxis,yAxis,invertXAxis,perGame):
 
     #Save the figure as a png
     plt.savefig('graphs/besta' + xAxis + 'vs' + yAxis + 'A.png', dpi=400)
+
+def graphLinear(data):
+    # Define X and Y variable data
+    
+    for d in data:
+        x = np.array([i for i in range(d['games']+1)])
+        y = np.array(d['accxGDiff'])
+        print(x,y)
+        plt.plot(x, y)
+    
+    
+    plt.xlabel("Games")  # add X-axis label
+    plt.ylabel("accumulated net xG")  # add Y-axis label
+    plt.title("Any suitable title")  # add title
+    plt.savefig('graphs/bestaAccXG.png', dpi=400)
+
+    print(graphData)

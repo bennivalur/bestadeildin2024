@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-from graphData import graphData
+from graphData import graphData, graphLinear
 """
 csvtojson = pd.read_csv('data/besta_report_data_2024.csv')
 csvtojson.to_json('data/besta_report_data_2024.json',orient='records')"""
@@ -21,7 +21,8 @@ for d in data:
             'shotsAgainst':0,
             'shotsOutsideBox':0,
             'shotsOutsideBoxFaced':0,
-            'games':0
+            'games':0,
+            'accxGDiff':[0]
         }
     if d['opponent'] not in teams:
         teams.append(d['opponent'])
@@ -33,7 +34,8 @@ for d in data:
             'shotsAgainst':0,
             'shotsOutsideBox':0,
             'shotsOutsideBoxFaced':0,
-            'games':0
+            'games':0,
+            'accxGDiff':[0]
         }
     #print(d)
     if d['xg'] != None:
@@ -44,6 +46,7 @@ for d in data:
         teamData[d['team']]['shotsOutsideBox'] += d['shots_outside_box']
         teamData[d['opponent']]['shotsOutsideBoxFaced'] += d['shots_outside_box']
         teamData[d['team']]['games'] += 1
+        teamData[d['team']]['accxGDiff'].append(round(teamData[d['team']]['xG']- teamData[d['team']]['xGA'],2))
 
 finalData = []
 for team in teams:
@@ -53,13 +56,14 @@ for team in teams:
     teamData[team]['xGDiff'] = round(teamData[team]['xG'] - teamData[team]['xGA'],2)
     teamData[team]['SOBRatio'] = round(teamData[team]['shotsOutsideBox'] / teamData[team]['shots'],2)
     teamData[team]['SOBARatio'] = round(teamData[team]['shotsOutsideBoxFaced'] / teamData[team]['shotsAgainst'],2)
+
     finalData.append(teamData[team])
 finalData = sorted(finalData, key=lambda d:d['xGDiff'], reverse=True)
     
     
-graphData(finalData,'xGA','xG',True,True)
-graphData(finalData,'SOBRatio','SOBARatio',False,False)
-
+#graphData(finalData,'xGA','xG',True,True)
+#graphData(finalData,'SOBRatio','SOBARatio',False,False)
+graphLinear(finalData)
 """
 teamData = {
     "ÍA":{
