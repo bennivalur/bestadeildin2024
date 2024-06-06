@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-
+from graphData import graphData
 """
 csvtojson = pd.read_csv('data/besta_report_data_2024.csv')
 csvtojson.to_json('data/besta_report_data_2024.json',orient='records')"""
@@ -20,7 +20,8 @@ for d in data:
             'shots':0,
             'shotsAgainst':0,
             'shotsOutsideBox':0,
-            'shotsOutsideBoxFaced':0
+            'shotsOutsideBoxFaced':0,
+            'games':0
         }
     if d['opponent'] not in teams:
         teams.append(d['opponent'])
@@ -31,7 +32,8 @@ for d in data:
             'shots':0,
             'shotsAgainst':0,
             'shotsOutsideBox':0,
-            'shotsOutsideBoxFaced':0
+            'shotsOutsideBoxFaced':0,
+            'games':0
         }
     #print(d)
     if d['xg'] != None:
@@ -41,6 +43,7 @@ for d in data:
         teamData[d['opponent']]['shotsAgainst'] += d['shots']
         teamData[d['team']]['shotsOutsideBox'] += d['shots_outside_box']
         teamData[d['opponent']]['shotsOutsideBoxFaced'] += d['shots_outside_box']
+        teamData[d['team']]['games'] += 1
 
 finalData = []
 for team in teams:
@@ -54,7 +57,8 @@ for team in teams:
 finalData = sorted(finalData, key=lambda d:d['xGDiff'], reverse=True)
     
     
-
+graphData(finalData,'xGA','xG',True,True)
+graphData(finalData,'SOBRatio','SOBARatio',False,False)
 
 """
 teamData = {

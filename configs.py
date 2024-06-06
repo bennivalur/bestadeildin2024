@@ -15,5 +15,7 @@ team_pic_mapper = {
     "Selfoss":"SEL",
     "ÍBV":"IBV",
     "Fram":"FRA",
-    "Vestri":"VES"
+    "Vestri":"VES",
+    "Fylkir":"FYL",
+    "HK":"HK"
 }
